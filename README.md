@@ -26,11 +26,50 @@ JWT_PASSPHRASE=your_jwt_passphrase
 ```
 
 ## 🚀 Запуск
-docker-compose up
-composer install
 
 ```cmd
 docker-compose up
 composer install
 php bin/console doctrine:migrations:migrate
+php bin/console lexik:jwt:generate-keypair
+```
+
+## 🚀 Роуты
+
+POST http://localhost:8000/api/register
+```
+{
+    "email": "user@mail.com",
+    "password": "password",
+    "name": "user"
+}
+```
+
+POST http://localhost:8000/api/login
+```
+{
+    "username": "user@mail.com",
+    "password": "password"
+}
+```
+
+GET http://localhost:8000/me
+```
+Authorization: Bearer ******
+```
+
+PUT http://localhost:8000/me
+```
+Authorization: Bearer ******
+
+{
+    "email": "user@mail.com",
+    "password": "password",
+    "name": "user"
+}
+```
+
+DELETE http://localhost:8000/me
+```
+Authorization: Bearer ******
 ```
