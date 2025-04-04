@@ -32,4 +32,5 @@ composer install
 ```cmd
 docker-compose up
 composer install
+php bin/console doctrine:migrations:migrate
 ```
