@@ -28,3 +28,8 @@ JWT_PASSPHRASE=your_jwt_passphrase
 ## 🚀 Запуск
 docker-compose up
 composer install
+
+```cmd
+docker-compose up
+composer install
+```
