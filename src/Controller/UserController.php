@@ -82,42 +82,11 @@ final class UserController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $user->delete();
-
+        $this->entityManager->remove($user);
         $this->entityManager->flush();
 
         return $this->json([
             'message' => 'User deleted successfully',
-        ]);
-    }
-
-    // TODO: надо доработать, чтобы этот роут лежал только у админа
-    #[Route('/api/user/restore', name: 'user_restore', methods: ['PUT'])]
-    public function restoreUser(Request $request): JsonResponse
-    {
-        $data = $request->toArray();
-
-        if (!isset($data['id'])) {
-            return $this->json([
-                'error' => 'Id is required',
-            ], 404);
-        }
-
-        /** @var User $user */
-        $user = $this->entityManager->getRepository(User::class)->find($data['id']);
-
-        if (!$user) {
-            return $this->json([
-                'error' => 'User is not found',
-            ], 404);
-        }
-
-        $user->restore();
-
-        $this->entityManager->flush();
-
-        return $this->json([
-            'message' => 'User restored successfully',
         ]);
     }
 }

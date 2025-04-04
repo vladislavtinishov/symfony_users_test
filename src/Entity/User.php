@@ -49,9 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[NotBlank]
     private ?string $name = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $deletedAt = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -113,7 +110,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(?string $password): static
     {
-        $this->password = $password;
+        if ($password) {
+            $passwordHasher = new NativePasswordHasher();
+            $this->password = $passwordHasher->hash($password);
+        }
 
         return $this;
     }
@@ -137,39 +137,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->name = $name;
 
         return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeImmutable
-    {
-        return $this->deletedAt;
-    }
-
-    public function delete(): static
-    {
-        $this->deletedAt = new \DateTimeImmutable();
-
-        return $this;
-    }
-
-    public function restore(): static
-    {
-        $this->deletedAt = null;
-
-        return $this;
-    }
-
-    public function isDeleted(): bool
-    {
-        return $this->deletedAt !== null;
-    }
-
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function encodePassword(): void
-    {
-        if ($this->password) {
-            $passwordHasher = new NativePasswordHasher();
-            $this->password = $passwordHasher->hash($this->password);
-        }
     }
 }
