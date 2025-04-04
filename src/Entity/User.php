@@ -144,11 +144,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
+    public function delete(): static
     {
-        $this->deletedAt = $deletedAt;
+        $this->deletedAt = new \DateTimeImmutable();
 
         return $this;
+    }
+
+    public function restore(): static
+    {
+        $this->deletedAt = null;
+
+        return $this;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->deletedAt !== null;
     }
 
     #[ORM\PrePersist]
