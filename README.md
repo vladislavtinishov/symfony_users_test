@@ -4,7 +4,7 @@
 
 - ✅ Symfony 6+
 - ✅ JWT аутентификация (LexikJWTAuthenticationBundle)
-- 🐳 Docker (Nginx, PHP-FPM, PostgreSQL)
+- 🐳 Docker (PHP-FPM, PostgreSQL)
 
 ---
 
